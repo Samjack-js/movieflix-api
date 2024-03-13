@@ -1,10 +1,13 @@
 import express from 'express'
+import { PrismaClient } from '@prisma/client'	
 
 const port = 3000
 const app = express()
+const prisma = new PrismaClient()
 
-app.get('/movies', (req, res) => {
-	res.send('Lista de filmes')
+app.get('/movies', async (req, res) => {
+	const movie = await prisma.movie.findMany()
+	res.json(movie)
 })
 
 app.listen(port, () => {
